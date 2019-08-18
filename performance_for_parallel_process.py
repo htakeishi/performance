@@ -5,6 +5,7 @@ import seaborn as sns
 from scipy import stats
 import numpy as np
 import pandas as pd
+import csv
 
 from matplotlib import pyplot as plt
 
@@ -13,13 +14,13 @@ x_discrete = np.arange(-5,5)
 
 SIZE = 1000
 processig_times = stats.norm.rvs(loc=3, scale=2, size=SIZE )
-sns.distplot(processig_times, bins=range(0,30))
-plt.show()
+# sns.distplot(processig_times, bins=range(0,30))
+# plt.show()
 
 mu = 4.0
 intervals = stats.poisson.rvs(mu, size=SIZE )
-sns.distplot(intervals, bins=range(0,30))
-plt.show()
+# sns.distplot(intervals, bins=range(0,30))
+# plt.show()
 
 TIMES = 10000
 MAX = 60
@@ -38,12 +39,16 @@ for j in range(TIMES):
 hist_sum = sum(int(i) for i in process_time_distribution)
 process_time_distribution = list( map(lambda x: x/float(hist_sum), process_time_distribution ) )
 
-plt.scatter(list(range(0, MAX, 1)), process_time_distribution)
-plt.show()
+# plt.scatter(list(range(0, MAX, 1)), process_time_distribution)
+# plt.show()
 
 
 for i in range(MAX-1):
     process_time_distribution[i+1] = process_time_distribution[i]+process_time_distribution[i+1]
 
-plt.scatter(list(range(0, MAX, 1)), process_time_distribution)
-plt.show()
+# plt.scatter(list(range(0, MAX, 1)), process_time_distribution)
+# plt.show()
+
+
+output_array = np.array(process_time_distribution)
+np.savetxt("out".csv", output_array, delimiter=",")
